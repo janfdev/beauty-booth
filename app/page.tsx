@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Camera, Sparkles, Image, ShieldCheck, Heart, ArrowRight } from "lucide-react";
 
-export function LandingPage() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between selection:bg-rose-500 selection:text-white">
       {/* Header */}
@@ -16,7 +16,7 @@ export function LandingPage() {
           </div>
         </div>
         <Link
-          to="/booth"
+          href="/booth"
           className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-semibold text-sm transition shadow-lg shadow-rose-500/20 inline-flex items-center gap-1.5"
         >
           <span>Masuk Booth</span>
@@ -45,7 +45,7 @@ export function LandingPage() {
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link
-              to="/booth"
+              href="/booth"
               className="px-7 py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-base transition flex items-center gap-2 shadow-xl shadow-rose-500/25 active:scale-95"
             >
               <Camera className="w-5 h-5" />
@@ -132,7 +132,7 @@ export function LandingPage() {
       {/* Footer */}
       <footer className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-6 border-t border-zinc-900 text-xs text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p>BeautyBooth Studio · Dibuat dengan kecintaan pada fotografi web</p>
-        <Link to="/booth" className="text-rose-400 hover:text-rose-300 font-medium transition">
+        <Link href="/booth" className="text-rose-400 hover:text-rose-300 font-medium transition">
           Buka Halaman Studio (/booth) →
         </Link>
       </footer>

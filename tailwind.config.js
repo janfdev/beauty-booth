@@ -1,30 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        blush: {
-          50: '#fff5f6',
-          100: '#ffe6e9',
-          200: '#ffd0d6',
-          300: '#ffabb7',
-          400: '#ff758c',
-          500: '#f43f5e',
-        },
-        lavender: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          500: '#a855f7',
-        },
-        cream: '#FFFBF5',
+        booth: {
+          pink: '#FFE5EC',
+          rose: '#FB6F92',
+          purple: '#E8DFF5',
+          cream: '#FFF9FB',
+          dark: '#2B2D42',
+        }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
       }
     },
   },

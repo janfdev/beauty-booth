@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import {
   ArrowLeft,
   Camera,
@@ -22,9 +24,9 @@ import {
   type FilterKind,
   type FrameTheme,
   type PlacedSticker,
-} from "../booth.utils.ts";
+} from "@/booth.utils";
 
-export function BoothPage() {
+export default function BoothPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stripCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -338,7 +340,7 @@ export function BoothPage() {
       {/* Top Header */}
       <header className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-4 flex items-center justify-between border-b border-zinc-800">
         <Link
-          to="/"
+          href="/"
           className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100 transition"
         >
           <ArrowLeft className="w-4 h-4" />
