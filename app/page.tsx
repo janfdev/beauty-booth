@@ -23,7 +23,7 @@ export default function HomePage() {
         <div className="rounded-full bg-white/85 backdrop-blur-md border border-[#FB6F92]/20 px-6 py-3.5 flex items-center justify-between shadow-sm shadow-[#FB6F92]/5">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92]">
-              <Heart className="size-4.5 fill-[#FB6F92]" />
+              <Heart className="size-5 fill-[#FB6F92]" />
             </div>
             <div>
               <span className="font-display font-black tracking-tight text-lg text-[#2B2D42]">
@@ -166,7 +166,7 @@ export default function HomePage() {
         <div className="grid sm:grid-cols-3 gap-5 max-w-5xl mx-auto pt-4">
           <Card doubleBezel className="space-y-2">
             <div className="size-9 rounded-xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
-              <Layers className="size-4.5" />
+              <Layers className="size-5" />
             </div>
             <h4 className="font-display font-bold text-sm text-[#2B2D42]">Katalog Frame Bervariasi</h4>
             <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
@@ -176,7 +176,7 @@ export default function HomePage() {
 
           <Card doubleBezel className="space-y-2">
             <div className="size-9 rounded-xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
-              <Users className="size-4.5" />
+              <Users className="size-5" />
             </div>
             <h4 className="font-display font-bold text-sm text-[#2B2D42]">Room Code 5 Jam</h4>
             <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
@@ -186,7 +186,7 @@ export default function HomePage() {
 
           <Card doubleBezel className="space-y-2">
             <div className="size-9 rounded-xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
-              <Sparkles className="size-4.5" />
+              <Sparkles className="size-5" />
             </div>
             <h4 className="font-display font-bold text-sm text-[#2B2D42]">Lencana & Riwayat Foto</h4>
             <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
