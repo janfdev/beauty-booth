@@ -19,7 +19,7 @@ export function UserNav() {
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
-    // Check local session or mock auth token
+    // 1. Cek local storage cache untuk render instan
     const saved = localStorage.getItem("lovefun_user");
     if (saved) {
       try {
@@ -28,6 +28,20 @@ export function UserNav() {
         // ignore
       }
     }
+
+    // 2. Sinkronkan dengan session cookie HTTP-only dari server
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user) {
+          setUser(data.user);
+          localStorage.setItem("lovefun_user", JSON.stringify(data.user));
+        } else {
+          setUser(null);
+          localStorage.removeItem("lovefun_user");
+        }
+      })
+      .catch(() => {});
 
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -38,35 +52,30 @@ export function UserNav() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLoginGoogle = () => {
-    // Redirect to Google OAuth URL (or mock login for preview)
-    const mockUser: AuthUser = {
-      id: "usr_google_123",
-      name: "Fauzan Rizqi",
-      email: "fauzanrizqinoor@gmail.com",
-      role: "SUPER_ADMIN",
-    };
-    localStorage.setItem("lovefun_user", JSON.stringify(mockUser));
-    setUser(mockUser);
-  };
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
     localStorage.removeItem("lovefun_user");
     setUser(null);
     setDropdownOpen(false);
+    window.location.href = "/";
   };
 
   if (!user) {
     return (
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={handleLoginGoogle}
-        className="rounded-full text-xs font-semibold gap-1.5"
-      >
-        <LogIn className="size-3.5 text-[#FB6F92]" />
-        <span>Masuk Akun</span>
-      </Button>
+      <Link href="/login">
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-xs font-semibold gap-1.5"
+        >
+          <LogIn className="size-3.5 text-[#FB6F92]" />
+          <span>Masuk Akun</span>
+        </Button>
+      </Link>
     );
   }
 
@@ -77,9 +86,17 @@ export function UserNav() {
         onClick={() => setDropdownOpen((prev) => !prev)}
         className="flex items-center gap-2 rounded-full border border-[#FB6F92]/25 bg-white p-1 pr-3 text-xs font-bold text-[#2B2D42] shadow-2xs hover:border-[#FB6F92]/50 transition select-none"
       >
-        <div className="size-7 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92] font-display font-black text-xs">
-          {user.name.charAt(0).toUpperCase()}
-        </div>
+        {user.avatarUrl ? (
+          <img
+            src={user.avatarUrl}
+            alt={user.name}
+            className="size-7 rounded-full object-cover border border-[#FB6F92]/30"
+          />
+        ) : (
+          <div className="size-7 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92] font-display font-black text-xs">
+            {user.name.charAt(0).toUpperCase()}
+          </div>
+        )}
         <span className="max-w-[100px] truncate">{user.name.split(" ")[0]}</span>
         <ChevronDown className="size-3 text-[#7D7F9A]" />
       </button>
