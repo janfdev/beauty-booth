@@ -24,10 +24,14 @@ function LoginFormContent() {
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(
-    urlError === "GoogleAuthFailed"
-      ? "Autentikasi Google gagal. Silakan coba lagi."
-      : urlError === "GoogleAuthCancelled"
-      ? "Autentikasi Google dibatalkan."
+    urlError
+      ? urlError === "GoogleAuthFailed"
+        ? "Autentikasi Google gagal. Silakan coba lagi."
+        : urlError === "GoogleAuthCancelled"
+        ? "Autentikasi Google dibatalkan."
+        : urlError === "MissingGoogleConfig"
+        ? "Konfigurasi GOOGLE_CLIENT_ID atau GOOGLE_CLIENT_SECRET belum lengkap."
+        : decodeURIComponent(urlError)
       : null
   );
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
