@@ -24,7 +24,7 @@ import {
   type FilterKind,
   type FrameTheme,
   type PlacedSticker,
-} from "@/booth.utils";
+} from "@/src/booth.utils";
 
 export default function BoothPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);

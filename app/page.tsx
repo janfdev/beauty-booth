@@ -1,140 +1,211 @@
 import Link from "next/link";
-import { Camera, Sparkles, Image, ShieldCheck, Heart, ArrowRight } from "lucide-react";
+import {
+  Camera,
+  Sparkles,
+  Heart,
+  ArrowRight,
+  Film,
+  Palette,
+  Sticker,
+  CheckCircle2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between selection:bg-rose-500 selection:text-white">
-      {/* Header */}
-      <header className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-5 flex items-center justify-between border-b border-zinc-800/80">
-        <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shadow-sm">
-            <Heart className="w-5 h-5 fill-rose-500/20" />
+    <div className="min-h-screen bg-[#FFF9FB] text-[#2B2D42] flex flex-col justify-between selection:bg-[#FB6F92] selection:text-white">
+      {/* Top Floating Island Header */}
+      <header className="sticky top-4 z-40 max-w-5xl w-full mx-auto px-4">
+        <div className="rounded-full bg-white/80 backdrop-blur-md border border-[#FB6F92]/20 px-6 py-3.5 flex items-center justify-between shadow-sm shadow-[#FB6F92]/5">
+          <div className="flex items-center gap-3">
+            <div className="size-9 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92]">
+              <Heart className="size-4.5 fill-[#FB6F92]" />
+            </div>
+            <div>
+              <span className="font-extrabold tracking-tight text-base text-[#2B2D42]">
+                BeautyBooth
+              </span>
+              <span className="hidden sm:inline-block ml-2 text-xs text-[#7D7F9A] font-medium">
+                Digital Photo Strip Studio
+              </span>
+            </div>
           </div>
-          <div>
-            <span className="font-extrabold tracking-tight text-lg text-zinc-100">BeautyBooth</span>
-            <span className="block text-[10px] text-zinc-400 font-medium">Digital Photo Strip & GIF Studio</span>
+
+          <div className="flex items-center gap-2">
+            <Link href="/booth">
+              <Button size="sm" className="rounded-full shadow-sm">
+                <span>Masuk Booth</span>
+                <ArrowRight className="size-3.5" />
+              </Button>
+            </Link>
           </div>
         </div>
-        <Link
-          href="/booth"
-          className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-semibold text-sm transition shadow-lg shadow-rose-500/20 inline-flex items-center gap-1.5"
-        >
-          <span>Masuk Booth</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
       </header>
 
       {/* Hero Section */}
-      <main className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-12 lg:py-20 grid lg:grid-cols-12 gap-12 items-center">
+      <main className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-10 lg:py-16 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 font-medium">
-            <Sparkles className="w-3.5 h-3.5 text-rose-400" />
-            <span>Studio Foto Pribadi di Web Browser</span>
-          </div>
+          <Badge variant="primary" className="rounded-full py-1 px-3.5 text-xs font-semibold">
+            <Sparkles className="size-3.5 text-[#FB6F92]" />
+            <span>Studio Foto Digital Ala Seoul Photobooth</span>
+          </Badge>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.15] text-zinc-50">
-            Foto Strip Lucu & Animasi GIF,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-pink-400 to-amber-300">
-              Langsung Jadi di Browser.
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.12] text-[#2B2D42]">
+            Cetak Photo Strip Manis & Animasi GIF,{" "}
+            <span className="text-[#FB6F92]">
+              Langsung di Web Browser Anda.
             </span>
           </h1>
 
-          <p className="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed">
-            Abadikan 3 atau 4 pose seru menggunakan webcam Anda. Terapkan filter kecantikan, hias dengan stiker lucu, pilih tema bingkai pastel, dan simpan hasilnya sebagai cetakan foto PNG maupun animasi GIF bergerak.
+          <p className="text-[#7D7F9A] text-base sm:text-lg max-w-xl leading-relaxed">
+            Abadikan momen seru dengan 3 atau 4 pose estetik. Lengkapi dengan filter kecantikan, stiker manis, bingkai pastel favorit, lalu unduh hasilnya sebagai cetakan foto beresolusi tinggi maupun animasi GIF bergerak.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link
-              href="/booth"
-              className="px-7 py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-base transition flex items-center gap-2 shadow-xl shadow-rose-500/25 active:scale-95"
-            >
-              <Camera className="w-5 h-5" />
-              <span>Coba Booth Sekarang</span>
+            <Link href="/booth">
+              <Button size="lg" className="rounded-full shadow-lg shadow-[#FB6F92]/25">
+                <Camera className="size-5" />
+                <span>Mulai Ambil Foto</span>
+              </Button>
             </Link>
-            <a
-              href="#fitur"
-              className="px-5 py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-medium text-sm border border-zinc-800 transition"
-            >
-              Lihat Kemampuan Studio
+            <a href="#fitur">
+              <Button variant="outline" size="lg" className="rounded-full">
+                <span>Pelajari Fitur Studio</span>
+              </Button>
             </a>
           </div>
 
-          {/* Quick Pillars */}
-          <div id="fitur" className="grid sm:grid-cols-3 gap-4 pt-8 border-t border-zinc-800/80">
-            <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-sm text-zinc-200">Beauty & Color Filters</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Filter Beauty Glow, Soft Peach, Retro Warm, dan B&W yang diproses real-time.
-              </p>
+          {/* Quick Perks Pill */}
+          <div className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-3 text-xs text-[#7D7F9A] font-medium">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-4 text-[#FB6F92]" />
+              <span>Tanpa Install Aplikasi</span>
             </div>
-
-            <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
-                <Image className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-sm text-zinc-200">Cute Stickers & Themes</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Pilih tema Blush Pink, Cream, atau Lavender, lalu tempel stiker pita dan glitter.
-              </p>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-4 text-[#FB6F92]" />
+              <span>100% Privacy di Browser</span>
             </div>
-
-            <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-sm text-zinc-200">100% Privacy-First</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Kamera dan render foto diproses di browser Anda sendiri tanpa diunggah ke server.
-              </p>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-4 text-[#FB6F92]" />
+              <span>Gratis & Bebas Iklan</span>
             </div>
           </div>
         </div>
 
-        {/* Visual Strip Showcase Mockup */}
+        {/* Visual Strip Showcase Mockup with Double-Bezel Frame */}
         <div className="lg:col-span-5 flex justify-center">
-          <div className="relative group">
-            {/* Ambient subtle glow */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-rose-500/20 to-purple-500/20 blur-xl opacity-70 group-hover:opacity-100 transition duration-500" />
-            
-            <div className="relative bg-rose-50 text-zinc-900 p-4 rounded-3xl shadow-2xl w-64 border-2 border-rose-200 space-y-3.5 transform rotate-2 hover:rotate-0 transition duration-300">
-              <div className="flex items-center justify-between px-1">
-                <span className="text-[11px] font-bold tracking-wider text-rose-500 uppercase">Beauty Booth</span>
-                <span className="text-[10px] text-rose-400 font-mono">3 POSES</span>
-              </div>
+          <div className="relative w-full max-w-xs">
+            {/* Soft Ambient Pastel Glow */}
+            <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-[#FFE5EC] via-[#E8DFF5] to-[#FB6F92]/20 blur-2xl opacity-70 -z-10" />
 
-              <div className="aspect-[4/3] rounded-xl bg-zinc-900/90 border border-zinc-700/60 flex items-center justify-center text-zinc-400 text-xs font-mono relative overflow-hidden">
-                <span className="relative z-10">POSE 01</span>
-                <div className="absolute top-2 right-2 text-sm">✨</div>
-              </div>
+            {/* Double-Bezel Physical Strip Card */}
+            <div className="rounded-[2.25rem] p-3 bg-white/90 border border-[#FB6F92]/20 shadow-xl shadow-[#FB6F92]/10 backdrop-blur-md">
+              <div className="rounded-[1.75rem] p-3.5 bg-[#FFF0F4] border border-[#FB6F92]/25 flex flex-col items-center gap-2.5">
+                {/* Simulated Frames */}
+                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE5EC] to-white flex flex-col items-center justify-center p-3 text-center">
+                    <span className="text-xs font-bold text-[#FB6F92]">Pose 1 · Sweet Smile</span>
+                    <span className="text-[10px] text-[#7D7F9A]">Soft Beauty Glow</span>
+                  </div>
+                </div>
 
-              <div className="aspect-[4/3] rounded-xl bg-zinc-800/90 border border-zinc-700/60 flex items-center justify-center text-zinc-300 text-xs font-mono relative overflow-hidden">
-                <span className="relative z-10">POSE 02</span>
-                <div className="absolute bottom-2 left-2 text-sm">🎀</div>
-              </div>
+                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E8DFF5] to-white flex flex-col items-center justify-center p-3 text-center">
+                    <span className="text-xs font-bold text-[#5A4E7A]">Pose 2 · V-Sign</span>
+                    <span className="text-[10px] text-[#7D7F9A]">Soft Peach Filter</span>
+                  </div>
+                </div>
 
-              <div className="aspect-[4/3] rounded-xl bg-zinc-900/90 border border-zinc-700/60 flex items-center justify-center text-zinc-400 text-xs font-mono relative overflow-hidden">
-                <span className="relative z-10">POSE 03</span>
-                <div className="absolute top-2 left-2 text-sm">💖</div>
-              </div>
+                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE5EC] to-white flex flex-col items-center justify-center p-3 text-center">
+                    <span className="text-xs font-bold text-[#FB6F92]">Pose 3 · Heart Hands</span>
+                    <span className="text-[10px] text-[#7D7F9A]">Warm Aesthetic</span>
+                  </div>
+                </div>
 
-              <div className="pt-2 text-center border-t border-rose-200">
-                <p className="font-extrabold text-xs tracking-widest uppercase text-rose-600">BEAUTY BOOTH</p>
-                <p className="text-[10px] text-zinc-500 font-mono mt-0.5">EST. 2026 · DIGITAL STRIP</p>
+                {/* Strip Footer */}
+                <div className="w-full pt-1 flex items-center justify-between text-[11px] font-bold text-[#FB6F92] px-1">
+                  <span>BEAUTY BOOTH</span>
+                  <Heart className="size-3.5 fill-[#FB6F92]" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </main>
 
+      {/* Feature Section Bento */}
+      <section id="fitur" className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-12 border-t border-[#FB6F92]/15">
+        <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
+          <Badge variant="secondary" className="rounded-full">
+            Fitur Utama Studio
+          </Badge>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#2B2D42]">
+            Pengalaman Photobooth Lengkap & Otomatis
+          </h2>
+          <p className="text-sm text-[#7D7F9A]">
+            Setiap fitur dirancang khusus untuk kenyamanan dan keindahan hasil foto Anda.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <Card doubleBezel className="space-y-2.5">
+            <div className="size-10 rounded-2xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
+              <Sparkles className="size-5" />
+            </div>
+            <h3 className="font-bold text-base text-[#2B2D42]">Real-time Beauty Glow</h3>
+            <p className="text-xs text-[#7D7F9A] leading-relaxed">
+              Pilihan filter wajah halus, soft peach, retro vintage, dan monokrom kontras tinggi.
+            </p>
+          </Card>
+
+          <Card doubleBezel className="space-y-2.5">
+            <div className="size-10 rounded-2xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
+              <Palette className="size-5" />
+            </div>
+            <h3 className="font-bold text-base text-[#2B2D42]">Pastel Frame Themes</h3>
+            <p className="text-xs text-[#7D7F9A] leading-relaxed">
+              Pilihan bingkai warna estetik: Blush Pink, Warm Cream, Pastel Lilac, dan Midnight Dark.
+            </p>
+          </Card>
+
+          <Card doubleBezel className="space-y-2.5">
+            <div className="size-10 rounded-2xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
+              <Sticker className="size-5" />
+            </div>
+            <h3 className="font-bold text-base text-[#2B2D42]">Cute Stickers Drag & Drop</h3>
+            <p className="text-xs text-[#7D7F9A] leading-relaxed">
+              Hias strip dengan stiker pita, bunga ceri, glitter spark, dan atur ukuran dengan bebas.
+            </p>
+          </Card>
+
+          <Card doubleBezel className="space-y-2.5">
+            <div className="size-10 rounded-2xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
+              <Film className="size-5" />
+            </div>
+            <h3 className="font-bold text-base text-[#2B2D42]">Animasi GIF Bergerak</h3>
+            <p className="text-xs text-[#7D7F9A] leading-relaxed">
+              Selain cetak strip PNG berkualitas tinggi, Anda dapat mengunduh animasi looping GIF.
+            </p>
+          </Card>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-6 border-t border-zinc-900 text-xs text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p>BeautyBooth Studio · Dibuat dengan kecintaan pada fotografi web</p>
-        <Link href="/booth" className="text-rose-400 hover:text-rose-300 font-medium transition">
-          Buka Halaman Studio (/booth) →
-        </Link>
+      <footer className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-8 border-t border-[#FB6F92]/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7D7F9A]">
+        <div className="flex items-center gap-2">
+          <Heart className="size-3.5 fill-[#FB6F92] text-[#FB6F92]" />
+          <span>Beauty Booth Studio · Dibuat untuk momen terbaik Anda</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="/booth" className="hover:text-[#FB6F92] font-semibold transition">
+            Buka Studio Kamera
+          </Link>
+          <span>·</span>
+          <span>100% Client-Side Privacy</span>
+        </div>
       </footer>
     </div>
   );
