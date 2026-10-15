@@ -41,6 +41,7 @@ export default function BoothPage() {
   // Camera & Stream State
   const [streamError, setStreamError] = useState<string | null>(null);
   const [streamLoading, setStreamLoading] = useState(true);
+  const [cameraActive, setCameraActive] = useState(false);
   const [mirrored, setMirrored] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -65,9 +66,10 @@ export default function BoothPage() {
   // Start Camera Stream
   useEffect(() => {
     let activeStream: MediaStream | null = null;
+    let isMounted = true;
     setStreamLoading(true);
 
-    if (!navigator?.mediaDevices?.getUserMedia) {
+    if (typeof window === "undefined" || !navigator?.mediaDevices?.getUserMedia) {
       setStreamError("Browser Anda tidak mendukung akses kamera langsung.");
       setStreamLoading(false);
       return;
@@ -83,15 +85,32 @@ export default function BoothPage() {
         audio: false,
       })
       .then((stream) => {
-        activeStream = stream;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
+        if (!isMounted) {
+          stream.getTracks().forEach((track) => track.stop());
+          return;
         }
-        setStreamLoading(false);
+        activeStream = stream;
+        const video = videoRef.current;
+        if (video) {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            video.play().catch(console.error);
+            if (isMounted) {
+              setStreamLoading(false);
+              setCameraActive(true);
+            }
+          };
+        } else {
+          if (isMounted) {
+            setStreamLoading(false);
+            setCameraActive(true);
+          }
+        }
       })
       .catch((err: Error) => {
+        if (!isMounted) return;
         setStreamError(
-          err.name === "NotAllowedError"
+          err.name === "NotAllowedError" || err.name === "PermissionDeniedError"
             ? "Izin kamera ditolak. Silakan izinkan akses webcam di pengaturan browser."
             : `Gagal mengakses kamera: ${err.message}`
         );
@@ -99,6 +118,7 @@ export default function BoothPage() {
       });
 
     return () => {
+      isMounted = false;
       activeStream?.getTracks().forEach((track) => track.stop());
     };
   }, []);
@@ -390,24 +410,27 @@ export default function BoothPage() {
                     Pastikan webcam terhubung dan izin akses telah disetujui di browser.
                   </p>
                 </div>
-              ) : streamLoading ? (
-                <div className="text-center space-y-2 text-white/70 text-xs">
-                  <div className="size-7 border-2 border-[#FB6F92] border-t-transparent rounded-full animate-spin mx-auto" />
+              ) : null}
+
+              {/* Video Element rendered permanently so ref is never null */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                style={{
+                  filter: FILTER_CSS[filter],
+                  transform: mirrored ? "scaleX(-1)" : "none",
+                }}
+                className={`w-full h-full object-cover ${streamLoading || streamError ? "hidden" : "block"}`}
+              />
+
+              {streamLoading && !streamError ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#2B2D42] text-white/70 text-xs space-y-2">
+                  <div className="size-7 border-2 border-[#FB6F92] border-t-transparent rounded-full animate-spin" />
                   <p className="font-medium tracking-wide">Menghubungkan ke kamera...</p>
                 </div>
-              ) : (
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  style={{
-                    filter: FILTER_CSS[filter],
-                    transform: mirrored ? "scaleX(-1)" : "none",
-                  }}
-                  className="w-full h-full object-cover"
-                />
-              )}
+              ) : null}
 
               {/* Countdown Overlay */}
               {countdown !== null && (
@@ -571,7 +594,7 @@ export default function BoothPage() {
               <Button
                 size="lg"
                 onClick={startSession}
-                disabled={isCapturing || !!streamError || streamLoading}
+                disabled={isCapturing || !!streamError || streamLoading || !cameraActive}
                 className="flex-1 rounded-2xl shadow-lg shadow-[#FB6F92]/25"
               >
                 <Camera className="size-5" />
