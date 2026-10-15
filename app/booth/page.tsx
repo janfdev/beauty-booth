@@ -181,9 +181,9 @@ export default function BoothPage() {
     const newSticker: PlacedSticker = {
       id: `sticker_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       emoji,
-      xPercent: 20 + Math.random() * 60,
-      yPercent: 15 + Math.random() * 70,
-      size: 44,
+      xPercent: 50,
+      yPercent: 30 + Math.random() * 40,
+      size: 48,
     };
     setPlacedStickers((prev) => [...prev, newSticker]);
   };
@@ -191,7 +191,60 @@ export default function BoothPage() {
   const removeSticker = (id: string) => {
     setPlacedStickers((prev) => prev.filter((s) => s.id !== id));
   };
-  void removeSticker;
+
+  // Sticker Drag Handlers via Pointer Events (Touch & Mouse friendly)
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const dragStartPos = useRef<{ x: number; y: number; initialXPercent: number; initialYPercent: number } | null>(null);
+  const canvasContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const handlePointerDown = (id: string, e: React.PointerEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+
+    const sticker = placedStickers.find((s) => s.id === id);
+    if (!sticker || !canvasContainerRef.current) return;
+
+    setDraggingId(id);
+    dragStartPos.current = {
+      x: e.clientX,
+      y: e.clientY,
+      initialXPercent: sticker.xPercent,
+      initialYPercent: sticker.yPercent,
+    };
+  };
+
+  const handlePointerMove = (id: string, e: React.PointerEvent) => {
+    if (draggingId !== id || !dragStartPos.current || !canvasContainerRef.current) return;
+
+    const rect = canvasContainerRef.current.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const deltaX = e.clientX - dragStartPos.current.x;
+    const deltaY = e.clientY - dragStartPos.current.y;
+
+    const deltaXPercent = (deltaX / rect.width) * 100;
+    const deltaYPercent = (deltaY / rect.height) * 100;
+
+    const newX = Math.max(5, Math.min(95, dragStartPos.current.initialXPercent + deltaXPercent));
+    const newY = Math.max(5, Math.min(95, dragStartPos.current.initialYPercent + deltaYPercent));
+
+    setPlacedStickers((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, xPercent: newX, yPercent: newY } : s))
+    );
+  };
+
+  const handlePointerUp = (id: string, e: React.PointerEvent) => {
+    if (draggingId === id) {
+      try {
+        (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // Safe fallback
+      }
+      setDraggingId(null);
+      dragStartPos.current = null;
+    }
+  };
 
   // Draw Composite Strip on HTML5 Canvas
   useEffect(() => {
@@ -254,16 +307,6 @@ export default function BoothPage() {
             ctx.stroke();
           });
 
-          // Draw Placed Stickers
-          placedStickers.forEach((sticker) => {
-            const sx = (sticker.xPercent / 100) * metrics.width;
-            const sy = (sticker.yPercent / 100) * metrics.height;
-            ctx.font = `${sticker.size}px sans-serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(sticker.emoji, sx, sy);
-          });
-
           // Footer Text
           const footerCenterY = metrics.height - metrics.footerH / 2;
           ctx.fillStyle = theme.text;
@@ -277,17 +320,46 @@ export default function BoothPage() {
             const todayStr = new Date().toISOString().slice(0, 10);
             ctx.fillText(`${todayStr} · MEMORY STRIP`, metrics.width / 2, footerCenterY + 18);
           }
+
+          // Draw Placed Stickers onto final Canvas (only when NOT dragging, so drag overlay handles active movement)
+          if (!draggingId) {
+            placedStickers.forEach((sticker) => {
+              const sx = (sticker.xPercent / 100) * metrics.width;
+              const sy = (sticker.yPercent / 100) * metrics.height;
+              ctx.font = `${sticker.size}px sans-serif`;
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillText(sticker.emoji, sx, sy);
+            });
+          }
         }
       };
       img.src = src;
       images.push(img);
     });
-  }, [shots, frameTheme, caption, showDate, placedStickers]);
+    // Draw Composite Strip on HTML5 Canvas
+    // (Stickers are handled interactively via HTML drag overlay during editing to prevent double-draw,
+    // and rendered directly on canvas before final export)
+  }, [shots, frameTheme, caption, showDate, placedStickers, draggingId]);
 
   // Export PNG Strip
   const downloadPng = () => {
     const canvas = stripCanvasRef.current;
     if (!canvas || shots.length === 0) return;
+
+    // Ensure all stickers are rendered on canvas before exporting
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      placedStickers.forEach((sticker) => {
+        const sx = (sticker.xPercent / 100) * canvas.width;
+        const sy = (sticker.yPercent / 100) * canvas.height;
+        ctx.font = `${sticker.size}px sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(sticker.emoji, sx, sy);
+      });
+    }
+
     const link = document.createElement("a");
     link.download = `beauty-booth-${Date.now()}.png`;
     link.href = canvas.toDataURL("image/png");
@@ -334,6 +406,16 @@ export default function BoothPage() {
         frameCtx.fillStyle = "#ffffff";
         frameCtx.font = "bold 12px sans-serif";
         frameCtx.fillText(`BEAUTY BOOTH · POSE ${i + 1}`, 16, gifHeight - 18);
+
+        // Draw placed stickers on each frame of animated GIF
+        placedStickers.forEach((sticker) => {
+          const sx = (sticker.xPercent / 100) * gifWidth;
+          const sy = (sticker.yPercent / 100) * gifHeight;
+          frameCtx.font = `${Math.round(sticker.size * 0.75)}px sans-serif`;
+          frameCtx.textAlign = "center";
+          frameCtx.textBaseline = "middle";
+          frameCtx.fillText(sticker.emoji, sx, sy);
+        });
 
         const imageData = frameCtx.getImageData(0, 0, gifWidth, gifHeight);
         const palette = quantize(imageData.data, 128);
@@ -707,12 +789,57 @@ export default function BoothPage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center w-full">
-              <canvas
-                ref={stripCanvasRef}
-                className="max-w-[250px] w-full h-auto rounded-2xl shadow-xl border border-[#FB6F92]/25 transition duration-300"
-              />
+              {/* Interactive Canvas Container with Drag Overlay */}
+              <div
+                ref={canvasContainerRef}
+                className="relative max-w-[250px] w-full select-none"
+              >
+                <canvas
+                  ref={stripCanvasRef}
+                  className="w-full h-auto rounded-2xl shadow-xl border border-[#FB6F92]/25 transition duration-300 block"
+                />
+
+                {/* Draggable Sticker Interactive Anchors */}
+                {placedStickers.map((sticker) => (
+                  <div
+                    key={sticker.id}
+                    onPointerDown={(e) => handlePointerDown(sticker.id, e)}
+                    onPointerMove={(e) => handlePointerMove(sticker.id, e)}
+                    onPointerUp={(e) => handlePointerUp(sticker.id, e)}
+                    onPointerCancel={(e) => handlePointerUp(sticker.id, e)}
+                    style={{
+                      left: `${sticker.xPercent}%`,
+                      top: `${sticker.yPercent}%`,
+                      transform: "translate(-50%, -50%)",
+                      touchAction: "none",
+                    }}
+                    className={`absolute z-20 cursor-grab active:cursor-grabbing p-1 rounded-xl transition-transform ${
+                      draggingId === sticker.id
+                        ? "scale-125 ring-2 ring-[#FB6F92] bg-white/40 backdrop-blur-xs shadow-lg"
+                        : "hover:scale-110 hover:bg-white/40 hover:ring-1 hover:ring-[#FB6F92]/40"
+                    }`}
+                    title="Drag untuk memindahkan posisi stiker"
+                  >
+                    <span className="text-3xl leading-none select-none pointer-events-none drop-shadow-sm">
+                      {sticker.emoji}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeSticker(sticker.id);
+                      }}
+                      className="absolute -top-1.5 -right-1.5 size-4 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold shadow-xs hover:bg-red-600"
+                      title="Hapus stiker"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+
               <p className="font-mono text-[11px] text-[#7D7F9A] mt-3 text-center">
-                EXPORT READY · HIGH RESOLUTION
+                DRAG STICKER UNTUK MENGATUR POSISI · EXPORT READY
               </p>
             </div>
           )}
