@@ -385,9 +385,9 @@ export default function BoothPage() {
             >
               {soundEnabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4 text-[#7D7F9A]" />}
             </button>
-            <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#2B2D42]">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-extrabold text-[#2B2D42]">
               <Heart className="size-4 text-[#FB6F92] fill-[#FB6F92]" />
-              <span>Studio Camera</span>
+              <span>STUDIO // CAMERA</span>
             </div>
           </div>
         </div>
@@ -435,7 +435,7 @@ export default function BoothPage() {
               {/* Countdown Overlay */}
               {countdown !== null && (
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-20">
-                  <div className="size-24 rounded-full bg-[#FB6F92] text-white flex items-center justify-center text-5xl font-black shadow-2xl animate-pulse">
+                  <div className="size-24 rounded-full bg-[#FB6F92] text-white flex items-center justify-center text-5xl font-mono font-black shadow-2xl animate-pulse">
                     {countdown}
                   </div>
                 </div>
@@ -464,11 +464,11 @@ export default function BoothPage() {
             {/* Filter Selector */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles className="size-3.5 text-[#FB6F92]" />
-                  <span>Filter Kecantikan & Warna</span>
+                  <span>FILTER & TONE</span>
                 </label>
-                <Badge variant="primary" className="capitalize text-[10px] py-0.5">
+                <Badge variant="primary" className="font-mono uppercase text-[10px] py-0.5">
                   {filter.replace("-", " ")}
                 </Badge>
               </div>
@@ -487,7 +487,7 @@ export default function BoothPage() {
                     key={f}
                     type="button"
                     onClick={() => setFilter(f)}
-                    className={`py-2 px-2 rounded-xl text-xs font-semibold capitalize transition text-center truncate ${
+                    className={`py-2 px-2 rounded-xl text-xs font-sans font-semibold capitalize transition text-center truncate ${
                       filter === f
                         ? "bg-[#FB6F92] text-white shadow-sm shadow-[#FB6F92]/25 font-bold"
                         : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
@@ -503,9 +503,9 @@ export default function BoothPage() {
             <div className="grid sm:grid-cols-2 gap-4 pt-3 border-t border-[#FB6F92]/15">
               {/* Pose Count Segmented */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Layers className="size-3.5 text-[#FB6F92]" />
-                  <span>Jumlah Pose Strip</span>
+                  <span>POSE COUNT</span>
                 </label>
                 <div className="flex items-center gap-2">
                   {([3, 4] as const).map((cnt) => (
@@ -514,13 +514,13 @@ export default function BoothPage() {
                       type="button"
                       disabled={isCapturing}
                       onClick={() => setShotTarget(cnt)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-bold transition ${
+                      className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition ${
                         shotTarget === cnt
                           ? "bg-[#FB6F92] text-white shadow-sm"
                           : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
                       }`}
                     >
-                      {cnt} Pose
+                      {cnt} POSES
                     </button>
                   ))}
                 </div>
@@ -528,9 +528,9 @@ export default function BoothPage() {
 
               {/* Frame Colors */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Palette className="size-3.5 text-[#FB6F92]" />
-                  <span>Warna Bingkai</span>
+                  <span>FRAME THEME</span>
                 </label>
                 <div className="flex flex-wrap gap-1.5">
                   {(
@@ -562,9 +562,9 @@ export default function BoothPage() {
             {/* Caption & Date Setting */}
             <div className="grid sm:grid-cols-2 gap-4 pt-3 border-t border-[#FB6F92]/15">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Type className="size-3.5 text-[#FB6F92]" />
-                  <span>Teks Bawah Bingkai</span>
+                  <span>FRAME CAPTION</span>
                 </label>
                 <input
                   type="text"
@@ -572,7 +572,7 @@ export default function BoothPage() {
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                   placeholder="BEAUTY BOOTH"
-                  className="w-full px-3 py-2 rounded-xl bg-[#FFF9FB] border border-[#2B2D42]/15 text-xs text-[#2B2D42] font-semibold focus:outline-none focus:border-[#FB6F92]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#FFF9FB] border border-[#2B2D42]/15 text-xs text-[#2B2D42] font-mono font-bold focus:outline-none focus:border-[#FB6F92]"
                 />
               </div>
 
@@ -584,7 +584,7 @@ export default function BoothPage() {
                     onChange={(e) => setShowDate(e.target.checked)}
                     className="rounded accent-[#FB6F92] size-4"
                   />
-                  <span>Tampilkan Tanggal Otomatis</span>
+                  <span className="font-sans">Tampilkan Tanggal Otomatis</span>
                 </label>
               </div>
             </div>
@@ -627,8 +627,8 @@ export default function BoothPage() {
         <section className="lg:col-span-5 flex flex-col items-center justify-start p-5 rounded-[2.25rem] bg-white/90 border border-[#FB6F92]/20 shadow-xl shadow-[#FB6F92]/10 space-y-4">
           <div className="w-full flex items-center justify-between pb-2 border-b border-[#FB6F92]/15">
             <div>
-              <h2 className="font-extrabold text-sm text-[#2B2D42]">Hasil Strip Foto</h2>
-              <p className="text-[11px] text-[#7D7F9A]">Cetak fisik PNG atau simpan GIF animasi</p>
+              <h2 className="font-display font-extrabold text-sm text-[#2B2D42]">Hasil Strip Foto</h2>
+              <p className="font-mono text-[11px] text-[#7D7F9A]">PNG // GIF ANIMATED</p>
             </div>
 
             {/* Download Buttons */}
@@ -638,7 +638,7 @@ export default function BoothPage() {
                 variant="primary"
                 onClick={downloadPng}
                 disabled={shots.length === 0 || isCapturing}
-                className="rounded-xl shadow-xs"
+                className="rounded-xl shadow-xs font-mono font-bold"
               >
                 <Download className="size-3.5" />
                 <span>PNG</span>
@@ -649,7 +649,7 @@ export default function BoothPage() {
                 variant="secondary"
                 onClick={downloadGif}
                 disabled={shots.length === 0 || isCapturing || isGeneratingGif}
-                className="rounded-xl text-[#5A4E7A] bg-[#E8DFF5] hover:bg-[#DDD2ED] border border-[#5A4E7A]/20"
+                className="rounded-xl text-[#5A4E7A] bg-[#E8DFF5] hover:bg-[#DDD2ED] border border-[#5A4E7A]/20 font-mono font-bold"
               >
                 <Film className="size-3.5" />
                 <span>{isGeneratingGif ? `${gifProgress}%` : "GIF"}</span>
@@ -661,18 +661,18 @@ export default function BoothPage() {
           {shots.length > 0 && (
             <div className="w-full p-3 rounded-2xl bg-[#FFF9FB] border border-[#FB6F92]/20 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-[11px] font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Smile className="size-3.5 text-[#FB6F92]" />
-                  <span>Tempel Stiker Lucu</span>
+                  <span>STICKERS PALETTE</span>
                 </span>
                 {placedStickers.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setPlacedStickers([])}
-                    className="text-[10px] text-red-500 hover:underline inline-flex items-center gap-1 font-semibold"
+                    className="text-[10px] font-mono text-red-500 hover:underline inline-flex items-center gap-1 font-semibold"
                   >
                     <Trash2 className="size-3" />
-                    <span>Hapus Semua</span>
+                    <span>CLEAR ALL</span>
                   </button>
                 )}
               </div>
@@ -699,8 +699,8 @@ export default function BoothPage() {
                 <Camera className="size-6" />
               </div>
               <div className="space-y-1">
-                <p className="font-bold text-sm text-[#2B2D42]">Belum ada foto yang diambil</p>
-                <p className="text-xs text-[#7D7F9A] max-w-xs leading-relaxed">
+                <p className="font-display font-bold text-sm text-[#2B2D42]">Belum ada foto yang diambil</p>
+                <p className="font-sans text-xs text-[#7D7F9A] max-w-xs leading-relaxed">
                   Posisikan wajah Anda pada kamera lalu klik tombol <strong>Mulai Sesi</strong> untuk mengambil pose otomatis.
                 </p>
               </div>
@@ -711,8 +711,8 @@ export default function BoothPage() {
                 ref={stripCanvasRef}
                 className="max-w-[250px] w-full h-auto rounded-2xl shadow-xl border border-[#FB6F92]/25 transition duration-300"
               />
-              <p className="text-[11px] text-[#7D7F9A] mt-3 text-center">
-                Klik tombol <strong>PNG</strong> untuk cetak resolusi tinggi atau <strong>GIF</strong> untuk animasi gerak.
+              <p className="font-mono text-[11px] text-[#7D7F9A] mt-3 text-center">
+                EXPORT READY · HIGH RESOLUTION
               </p>
             </div>
           )}
