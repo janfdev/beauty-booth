@@ -13,8 +13,16 @@ import {
   Trash2,
   Volume2,
   VolumeX,
+  Heart,
+  Palette,
+  Layers,
+  Smile,
+  Type,
 } from "lucide-react";
 import { GIFEncoder, quantize, applyPalette } from "gifenc";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import {
   calcStripMetrics,
   FILTER_CSS,
@@ -336,102 +344,110 @@ export default function BoothPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-rose-500 selection:text-white">
-      {/* Top Header */}
-      <header className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-4 flex items-center justify-between border-b border-zinc-800">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100 transition"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Kembali ke Beranda</span>
-        </Link>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setSoundEnabled((s) => !s)}
-            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition"
-            title={soundEnabled ? "Nonaktifkan Efek Suara" : "Aktifkan Efek Suara"}
+    <div className="min-h-screen bg-[#FFF9FB] text-[#2B2D42] flex flex-col selection:bg-[#FB6F92] selection:text-white">
+      {/* Top Floating Header */}
+      <header className="sticky top-3 z-40 max-w-6xl w-full mx-auto px-4 py-2">
+        <div className="rounded-full bg-white/85 backdrop-blur-md border border-[#FB6F92]/20 px-5 py-3 flex items-center justify-between shadow-sm shadow-[#FB6F92]/5">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#7D7F9A] hover:text-[#FB6F92] transition"
           >
-            {soundEnabled ? <Volume2 className="w-4 h-4 text-rose-400" /> : <VolumeX className="w-4 h-4" />}
-          </button>
-          <span className="font-extrabold text-sm tracking-wide text-zinc-200">
-            BeautyBooth <span className="text-rose-400">Studio</span>
-          </span>
+            <ArrowLeft className="size-4" />
+            <span>Kembali ke Beranda</span>
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSoundEnabled((s) => !s)}
+              className="size-8 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/20 text-[#FB6F92] flex items-center justify-center transition hover:scale-105 active:scale-95"
+              title={soundEnabled ? "Nonaktifkan Efek Suara" : "Aktifkan Efek Suara"}
+            >
+              {soundEnabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4 text-[#7D7F9A]" />}
+            </button>
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#2B2D42]">
+              <Heart className="size-4 text-[#FB6F92] fill-[#FB6F92]" />
+              <span>Studio Camera</span>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main Studio Area */}
-      <main className="max-w-6xl w-full mx-auto px-5 lg:px-6 py-6 lg:py-8 grid lg:grid-cols-12 gap-8 flex-1">
-        {/* Left Side: Camera Live View & Session Controls */}
+      <main className="max-w-6xl w-full mx-auto px-4 lg:px-6 py-4 lg:py-6 grid lg:grid-cols-12 gap-8 flex-1 items-start">
+        {/* Left Side: Double-Bezel Camera Viewfinder & Controls */}
         <section className="lg:col-span-7 space-y-5">
-          {/* Viewfinder Window */}
-          <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden bg-zinc-900 border-2 border-zinc-800/80 shadow-2xl flex items-center justify-center">
-            {streamError ? (
-              <div className="p-8 text-center space-y-3 max-w-md">
-                <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 mx-auto flex items-center justify-center">
-                  <Camera className="w-6 h-6" />
+          {/* Double-Bezel Camera Viewfinder Frame */}
+          <div className="rounded-[2.25rem] p-3 bg-white/90 border border-[#FB6F92]/20 shadow-xl shadow-[#FB6F92]/10 backdrop-blur-xs">
+            <div className="relative aspect-[4/3] w-full rounded-[1.75rem] overflow-hidden bg-[#2B2D42] border border-[#2B2D42]/10 flex items-center justify-center">
+              {streamError ? (
+                <div className="p-8 text-center space-y-3 max-w-md">
+                  <div className="size-12 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-500 mx-auto flex items-center justify-center">
+                    <Camera className="size-6" />
+                  </div>
+                  <p className="text-red-500 font-semibold text-sm leading-relaxed">{streamError}</p>
+                  <p className="text-xs text-white/60">
+                    Pastikan webcam terhubung dan izin akses telah disetujui di browser.
+                  </p>
                 </div>
-                <p className="text-red-400 font-semibold text-sm leading-relaxed">{streamError}</p>
-                <p className="text-xs text-zinc-500">
-                  Pastikan kamera terhubung dan telah memberikan izin akses pada pop-up browser.
-                </p>
-              </div>
-            ) : streamLoading ? (
-              <div className="text-center space-y-2 text-zinc-500 text-xs">
-                <div className="w-6 h-6 border-2 border-rose-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p>Menghubungkan ke webcam perangkat...</p>
-              </div>
-            ) : (
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                style={{
-                  filter: FILTER_CSS[filter],
-                  transform: mirrored ? "scaleX(-1)" : "none",
-                }}
-                className="w-full h-full object-cover"
-              />
-            )}
-
-            {/* Countdown Overlay */}
-            {countdown !== null && (
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center">
-                <div className="w-28 h-28 rounded-full bg-rose-500/90 text-white flex items-center justify-center text-6xl font-black shadow-2xl animate-pulse">
-                  {countdown}
+              ) : streamLoading ? (
+                <div className="text-center space-y-2 text-white/70 text-xs">
+                  <div className="size-7 border-2 border-[#FB6F92] border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="font-medium tracking-wide">Menghubungkan ke kamera...</p>
                 </div>
-              </div>
-            )}
+              ) : (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  style={{
+                    filter: FILTER_CSS[filter],
+                    transform: mirrored ? "scaleX(-1)" : "none",
+                  }}
+                  className="w-full h-full object-cover"
+                />
+              )}
 
-            {/* Flash Effect */}
-            {flash && <div className="absolute inset-0 bg-white transition-opacity duration-150 z-30" />}
+              {/* Countdown Overlay */}
+              {countdown !== null && (
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-20">
+                  <div className="size-24 rounded-full bg-[#FB6F92] text-white flex items-center justify-center text-5xl font-black shadow-2xl animate-pulse">
+                    {countdown}
+                  </div>
+                </div>
+              )}
 
-            {/* Mirror Toggle Button overlay */}
-            {!streamError && (
-              <button
-                type="button"
-                onClick={() => setMirrored((m) => !m)}
-                className="absolute top-4 right-4 p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs inline-flex items-center gap-1.5 transition border border-white/10"
-                title="Putar Balik Kamera"
-              >
-                <FlipHorizontal className="w-4 h-4" />
-                <span className="hidden sm:inline">Flip Mirror</span>
-              </button>
-            )}
+              {/* Camera Flash Effect */}
+              {flash && <div className="absolute inset-0 bg-white camera-flash z-30" />}
+
+              {/* Mirror Toggle Floating Button */}
+              {!streamError && (
+                <button
+                  type="button"
+                  onClick={() => setMirrored((m) => !m)}
+                  className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white text-xs inline-flex items-center gap-1.5 transition border border-white/20 active:scale-95"
+                  title="Putar Balik Kamera"
+                >
+                  <FlipHorizontal className="size-3.5" />
+                  <span>Flip</span>
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Studio Controls Box */}
-          <div className="p-5 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+          {/* Studio Controls Bento Card */}
+          <Card doubleBezel className="space-y-4">
             {/* Filter Selector */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-rose-400" />
-                  <span>Filter Kecantikan & Efek</span>
+                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles className="size-3.5 text-[#FB6F92]" />
+                  <span>Filter Kecantikan & Warna</span>
                 </label>
-                <span className="text-[11px] text-zinc-500 capitalize">{filter.replace("-", " ")}</span>
+                <Badge variant="primary" className="capitalize text-[10px] py-0.5">
+                  {filter.replace("-", " ")}
+                </Badge>
               </div>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {(
@@ -448,10 +464,10 @@ export default function BoothPage() {
                     key={f}
                     type="button"
                     onClick={() => setFilter(f)}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-semibold capitalize transition text-center truncate ${
+                    className={`py-2 px-2 rounded-xl text-xs font-semibold capitalize transition text-center truncate ${
                       filter === f
-                        ? "bg-rose-500 text-white shadow-md shadow-rose-500/30"
-                        : "bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700"
+                        ? "bg-[#FB6F92] text-white shadow-sm shadow-[#FB6F92]/25 font-bold"
+                        : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
                     }`}
                   >
                     {f.replace("-", " ")}
@@ -460,12 +476,13 @@ export default function BoothPage() {
               </div>
             </div>
 
-            {/* Poses & Theme Customization */}
-            <div className="grid sm:grid-cols-2 gap-4 pt-2 border-t border-zinc-800/80">
-              {/* Pose Count */}
+            {/* Poses Count & Frame Theme Customization */}
+            <div className="grid sm:grid-cols-2 gap-4 pt-3 border-t border-[#FB6F92]/15">
+              {/* Pose Count Segmented */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                  Jumlah Pose
+                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                  <Layers className="size-3.5 text-[#FB6F92]" />
+                  <span>Jumlah Pose Strip</span>
                 </label>
                 <div className="flex items-center gap-2">
                   {([3, 4] as const).map((cnt) => (
@@ -474,13 +491,13 @@ export default function BoothPage() {
                       type="button"
                       disabled={isCapturing}
                       onClick={() => setShotTarget(cnt)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-semibold transition ${
+                      className={`flex-1 py-2 rounded-xl text-xs font-bold transition ${
                         shotTarget === cnt
-                          ? "bg-rose-500 text-white shadow-md"
-                          : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                          ? "bg-[#FB6F92] text-white shadow-sm"
+                          : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
                       }`}
                     >
-                      {cnt} Pose Strip
+                      {cnt} Pose
                     </button>
                   ))}
                 </div>
@@ -488,8 +505,9 @@ export default function BoothPage() {
 
               {/* Frame Colors */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                  Warna Bingkai
+                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                  <Palette className="size-3.5 text-[#FB6F92]" />
+                  <span>Warna Bingkai</span>
                 </label>
                 <div className="flex flex-wrap gap-1.5">
                   {(
@@ -507,8 +525,8 @@ export default function BoothPage() {
                       onClick={() => setFrameTheme(t)}
                       className={`px-2.5 py-1.5 rounded-xl text-xs font-medium transition ${
                         frameTheme === t
-                          ? "bg-rose-500 text-white font-semibold"
-                          : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                          ? "bg-[#FB6F92] text-white font-bold shadow-xs"
+                          : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
                       }`}
                     >
                       {FRAME_STYLES[t].label}
@@ -519,10 +537,11 @@ export default function BoothPage() {
             </div>
 
             {/* Caption & Date Setting */}
-            <div className="grid sm:grid-cols-2 gap-4 pt-2 border-t border-zinc-800/80">
+            <div className="grid sm:grid-cols-2 gap-4 pt-3 border-t border-[#FB6F92]/15">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                  Teks Bawah Bingkai
+                <label className="text-xs font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                  <Type className="size-3.5 text-[#FB6F92]" />
+                  <span>Teks Bawah Bingkai</span>
                 </label>
                 <input
                   type="text"
@@ -530,17 +549,17 @@ export default function BoothPage() {
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                   placeholder="BEAUTY BOOTH"
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-100 focus:outline-none focus:border-rose-500"
+                  className="w-full px-3 py-2 rounded-xl bg-[#FFF9FB] border border-[#2B2D42]/15 text-xs text-[#2B2D42] font-semibold focus:outline-none focus:border-[#FB6F92]"
                 />
               </div>
 
               <div className="flex items-center justify-between sm:justify-start gap-3 pt-6">
-                <label className="text-xs text-zinc-300 font-medium cursor-pointer flex items-center gap-2">
+                <label className="text-xs text-[#2B2D42] font-semibold cursor-pointer flex items-center gap-2 select-none">
                   <input
                     type="checkbox"
                     checked={showDate}
                     onChange={(e) => setShowDate(e.target.checked)}
-                    className="rounded bg-zinc-950 border-zinc-800 text-rose-500 focus:ring-rose-500"
+                    className="rounded accent-[#FB6F92] size-4"
                   />
                   <span>Tampilkan Tanggal Otomatis</span>
                 </label>
@@ -548,84 +567,88 @@ export default function BoothPage() {
             </div>
 
             {/* Action Trigger Buttons */}
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                type="button"
+            <div className="flex items-center gap-3 pt-3">
+              <Button
+                size="lg"
                 onClick={startSession}
                 disabled={isCapturing || !!streamError || streamLoading}
-                className="flex-1 py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-400 disabled:opacity-50 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-xl shadow-rose-500/25 active:scale-95"
+                className="flex-1 rounded-2xl shadow-lg shadow-[#FB6F92]/25"
               >
-                <Camera className="w-5 h-5" />
+                <Camera className="size-5" />
                 <span>
                   {isCapturing
                     ? `Sedang Mengambil Foto (${shots.length + 1}/${shotTarget})...`
                     : `Mulai Sesi (${shotTarget} Pose)`}
                 </span>
-              </button>
+              </Button>
 
               {shots.length > 0 && !isCapturing && (
-                <button
-                  type="button"
+                <Button
+                  variant="outline"
+                  size="lg"
                   onClick={() => {
                     setShots([]);
                     setPlacedStickers([]);
                   }}
-                  className="px-4 py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold inline-flex items-center gap-1.5 transition"
+                  className="rounded-2xl"
                 >
-                  <RefreshCw className="w-4 h-4" />
-                  <span>Ulangi Sesi</span>
-                </button>
+                  <RefreshCw className="size-4" />
+                  <span>Ulangi</span>
+                </Button>
               )}
             </div>
-          </div>
+          </Card>
         </section>
 
-        {/* Right Side: Composite Result Strip, Stickers & Download Hub */}
-        <section className="lg:col-span-5 flex flex-col items-center justify-start p-6 rounded-3xl bg-zinc-900/60 border border-zinc-800 space-y-5">
-          <div className="w-full flex items-center justify-between">
+        {/* Right Side: Photo Strip Preview, Cute Stickers, & Export Hub */}
+        <section className="lg:col-span-5 flex flex-col items-center justify-start p-5 rounded-[2.25rem] bg-white/90 border border-[#FB6F92]/20 shadow-xl shadow-[#FB6F92]/10 space-y-4">
+          <div className="w-full flex items-center justify-between pb-2 border-b border-[#FB6F92]/15">
             <div>
-              <h2 className="font-extrabold text-sm text-zinc-200">Hasil Strip Foto</h2>
-              <p className="text-[11px] text-zinc-400">Siap disimpan atau dibagikan</p>
+              <h2 className="font-extrabold text-sm text-[#2B2D42]">Hasil Strip Foto</h2>
+              <p className="text-[11px] text-[#7D7F9A]">Cetak fisik PNG atau simpan GIF animasi</p>
             </div>
 
             {/* Download Buttons */}
             <div className="flex items-center gap-2">
-              <button
-                type="button"
+              <Button
+                size="sm"
+                variant="primary"
                 onClick={downloadPng}
                 disabled={shots.length === 0 || isCapturing}
-                className="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-400 disabled:opacity-30 text-white font-bold text-xs inline-flex items-center gap-1.5 transition shadow-sm"
+                className="rounded-xl shadow-xs"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="size-3.5" />
                 <span>PNG</span>
-              </button>
+              </Button>
 
-              <button
-                type="button"
+              <Button
+                size="sm"
+                variant="secondary"
                 onClick={downloadGif}
                 disabled={shots.length === 0 || isCapturing || isGeneratingGif}
-                className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-30 text-white font-bold text-xs inline-flex items-center gap-1.5 transition shadow-sm"
+                className="rounded-xl text-[#5A4E7A] bg-[#E8DFF5] hover:bg-[#DDD2ED] border border-[#5A4E7A]/20"
               >
-                <Film className="w-3.5 h-3.5" />
+                <Film className="size-3.5" />
                 <span>{isGeneratingGif ? `${gifProgress}%` : "GIF"}</span>
-              </button>
+              </Button>
             </div>
           </div>
 
-          {/* Stickers Palettes */}
+          {/* Cute Sticker Palette */}
           {shots.length > 0 && (
-            <div className="w-full p-3 rounded-2xl bg-zinc-950/70 border border-zinc-800 space-y-2">
+            <div className="w-full p-3 rounded-2xl bg-[#FFF9FB] border border-[#FB6F92]/20 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                  Tempel Stiker Lucu (Klik untuk menambah)
+                <span className="text-[11px] font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
+                  <Smile className="size-3.5 text-[#FB6F92]" />
+                  <span>Tempel Stiker Lucu</span>
                 </span>
                 {placedStickers.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setPlacedStickers([])}
-                    className="text-[10px] text-zinc-500 hover:text-red-400 inline-flex items-center gap-1"
+                    className="text-[10px] text-red-500 hover:underline inline-flex items-center gap-1 font-semibold"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2 className="size-3" />
                     <span>Hapus Semua</span>
                   </button>
                 )}
@@ -636,7 +659,7 @@ export default function BoothPage() {
                     key={sticker.id}
                     type="button"
                     onClick={() => addSticker(sticker.emoji)}
-                    className="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-rose-500/20 hover:border-rose-500/40 border border-zinc-800 flex items-center justify-center text-lg transition active:scale-90"
+                    className="size-8 rounded-xl bg-white hover:bg-[#FFE5EC] border border-[#FB6F92]/25 flex items-center justify-center text-lg transition active:scale-90 shadow-2xs"
                     title={`Tambah ${sticker.label}`}
                   >
                     {sticker.emoji}
@@ -646,16 +669,16 @@ export default function BoothPage() {
             </div>
           )}
 
-          {/* Canvas or Empty State */}
+          {/* Canvas or Empty State Container */}
           {shots.length === 0 ? (
-            <div className="flex-1 w-full min-h-[380px] rounded-2xl border-2 border-dashed border-zinc-800/80 flex flex-col items-center justify-center text-center p-8 space-y-3">
-              <div className="w-14 h-14 rounded-3xl bg-zinc-900 border border-zinc-800 text-zinc-500 flex items-center justify-center">
-                <Camera className="w-6 h-6" />
+            <div className="flex-1 w-full min-h-[360px] rounded-2xl border-2 border-dashed border-[#FB6F92]/30 bg-[#FFF9FB] flex flex-col items-center justify-center text-center p-6 space-y-3">
+              <div className="size-14 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 text-[#FB6F92] flex items-center justify-center shadow-xs">
+                <Camera className="size-6" />
               </div>
               <div className="space-y-1">
-                <p className="font-semibold text-sm text-zinc-300">Belum ada foto yang diambil</p>
-                <p className="text-xs text-zinc-500 max-w-xs leading-relaxed">
-                  Posisikan wajah Anda pada kamera lalu klik tombol <strong>Mulai Sesi</strong> untuk mengambil 3 atau 4 pose otomatis.
+                <p className="font-bold text-sm text-[#2B2D42]">Belum ada foto yang diambil</p>
+                <p className="text-xs text-[#7D7F9A] max-w-xs leading-relaxed">
+                  Posisikan wajah Anda pada kamera lalu klik tombol <strong>Mulai Sesi</strong> untuk mengambil pose otomatis.
                 </p>
               </div>
             </div>
@@ -663,9 +686,9 @@ export default function BoothPage() {
             <div className="flex flex-col items-center justify-center w-full">
               <canvas
                 ref={stripCanvasRef}
-                className="max-w-[260px] w-full h-auto rounded-2xl shadow-2xl border border-zinc-800 transition duration-300"
+                className="max-w-[250px] w-full h-auto rounded-2xl shadow-xl border border-[#FB6F92]/25 transition duration-300"
               />
-              <p className="text-[11px] text-zinc-500 mt-3 text-center">
+              <p className="text-[11px] text-[#7D7F9A] mt-3 text-center">
                 Klik tombol <strong>PNG</strong> untuk cetak resolusi tinggi atau <strong>GIF</strong> untuk animasi gerak.
               </p>
             </div>
