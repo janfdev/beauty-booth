@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { UserNav } from "@/components/user-nav";
 
 export default function HomePage() {
   return (
@@ -35,11 +36,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Link href="/profile">
-              <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold">
-                <span>Profil</span>
-              </Button>
-            </Link>
+            <UserNav />
             <Link href="/booth">
               <Button size="sm" className="rounded-full shadow-sm font-display font-bold">
                 <span>Studio Foto</span>
