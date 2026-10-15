@@ -23,6 +23,9 @@ import { GIFEncoder, quantize, applyPalette } from "gifenc";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { ToggleGroup } from "@/components/ui/toggle-group";
 import {
   calcStripMetrics,
   FILTER_CSS,
@@ -407,15 +410,8 @@ export default function BoothPage() {
         frameCtx.font = "bold 12px sans-serif";
         frameCtx.fillText(`BEAUTY BOOTH · POSE ${i + 1}`, 16, gifHeight - 18);
 
-        // Draw placed stickers on each frame of animated GIF
-        placedStickers.forEach((sticker) => {
-          const sx = (sticker.xPercent / 100) * gifWidth;
-          const sy = (sticker.yPercent / 100) * gifHeight;
-          frameCtx.font = `${Math.round(sticker.size * 0.75)}px sans-serif`;
-          frameCtx.textAlign = "center";
-          frameCtx.textBaseline = "middle";
-          frameCtx.fillText(sticker.emoji, sx, sy);
-        });
+        // GIF frames intentionally keep pure natural poses without stickers
+        // (Stickers are preserved exclusively on the printed photo strip)
 
         const imageData = frameCtx.getImageData(0, 0, gifWidth, gifHeight);
         const palette = quantize(imageData.data, 128);
@@ -583,39 +579,33 @@ export default function BoothPage() {
 
             {/* Poses Count & Frame Theme Customization */}
             <div className="grid sm:grid-cols-2 gap-4 pt-3 border-t border-[#FB6F92]/15">
-              {/* Pose Count Segmented */}
+              {/* Pose Count ToggleGroup */}
               <div className="space-y-2">
                 <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Layers className="size-3.5 text-[#FB6F92]" />
                   <span>POSE COUNT</span>
                 </label>
-                <div className="flex items-center gap-2">
-                  {([3, 4] as const).map((cnt) => (
-                    <button
-                      key={cnt}
-                      type="button"
-                      disabled={isCapturing}
-                      onClick={() => setShotTarget(cnt)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition ${
-                        shotTarget === cnt
-                          ? "bg-[#FB6F92] text-white shadow-sm"
-                          : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
-                      }`}
-                    >
-                      {cnt} POSES
-                    </button>
-                  ))}
-                </div>
+                <ToggleGroup
+                  disabled={isCapturing}
+                  value={String(shotTarget)}
+                  onChange={(val) => setShotTarget(Number(val) as 3 | 4)}
+                  options={[
+                    { value: "3", label: "3 POSES" },
+                    { value: "4", label: "4 POSES" },
+                  ]}
+                />
               </div>
 
-              {/* Frame Colors */}
+              {/* Frame Colors Dropdown Select */}
               <div className="space-y-2">
                 <label className="text-xs font-mono font-bold text-[#2B2D42] uppercase tracking-wider flex items-center gap-1.5">
                   <Palette className="size-3.5 text-[#FB6F92]" />
                   <span>FRAME THEME</span>
                 </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {(
+                <Select
+                  value={frameTheme}
+                  onChange={(val) => setFrameTheme(val as FrameTheme)}
+                  options={(
                     [
                       "blush-pink",
                       "cream-pearl",
@@ -623,21 +613,11 @@ export default function BoothPage() {
                       "lavender-haze",
                       "matcha-mint",
                     ] as FrameTheme[]
-                  ).map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setFrameTheme(t)}
-                      className={`px-2.5 py-1.5 rounded-xl text-xs font-medium transition ${
-                        frameTheme === t
-                          ? "bg-[#FB6F92] text-white font-bold shadow-xs"
-                          : "bg-[#FFF9FB] text-[#2B2D42] border border-[#2B2D42]/10 hover:border-[#FB6F92]/40"
-                      }`}
-                    >
-                      {FRAME_STYLES[t].label}
-                    </button>
-                  ))}
-                </div>
+                  ).map((t) => ({
+                    value: t,
+                    label: FRAME_STYLES[t].label,
+                  }))}
+                />
               </div>
             </div>
 
@@ -648,13 +628,13 @@ export default function BoothPage() {
                   <Type className="size-3.5 text-[#FB6F92]" />
                   <span>FRAME CAPTION</span>
                 </label>
-                <input
+                <Input
                   type="text"
                   maxLength={28}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                   placeholder="BEAUTY BOOTH"
-                  className="w-full px-3 py-2 rounded-xl bg-[#FFF9FB] border border-[#2B2D42]/15 text-xs text-[#2B2D42] font-mono font-bold focus:outline-none focus:border-[#FB6F92]"
+                  className="font-mono font-bold"
                 />
               </div>
 
