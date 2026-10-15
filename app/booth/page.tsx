@@ -26,6 +26,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { ToggleGroup } from "@/components/ui/toggle-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   calcStripMetrics,
   FILTER_CSS,
@@ -639,15 +640,12 @@ export default function BoothPage() {
               </div>
 
               <div className="flex items-center justify-between sm:justify-start gap-3 pt-6">
-                <label className="text-xs text-[#2B2D42] font-semibold cursor-pointer flex items-center gap-2 select-none">
-                  <input
-                    type="checkbox"
-                    checked={showDate}
-                    onChange={(e) => setShowDate(e.target.checked)}
-                    className="rounded accent-[#FB6F92] size-4"
-                  />
-                  <span className="font-sans">Tampilkan Tanggal Otomatis</span>
-                </label>
+                <Checkbox
+                  id="showDateCheckbox"
+                  checked={showDate}
+                  onCheckedChange={(checked) => setShowDate(checked)}
+                  label="Tampilkan Tanggal Otomatis"
+                />
               </div>
             </div>
 
