@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { isSuperAdminEmail, signSessionToken } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   const urlObj = new URL(req.url);
   const code = urlObj.searchParams.get("code");
