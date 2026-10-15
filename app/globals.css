@@ -5,6 +5,16 @@
 :root {
   --background: #FFF9FB;
   --foreground: #2B2D42;
+  --primary: #FB6F92;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFE5EC;
+  --secondary-foreground: #2B2D42;
+  --card: #FFFFFF;
+  --card-foreground: #2B2D42;
+  --muted: #F3EAF0;
+  --muted-foreground: #7D7F9A;
+  --border: rgba(43, 45, 66, 0.1);
+  --ring: #FB6F92;
 }
 
 body {

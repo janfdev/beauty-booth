@@ -19,13 +19,17 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"],
+      "@/src/*": ["./src/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
     "src/booth.utils.ts",
     "src/gifenc.d.ts",
     ".next/types/**/*.ts",
