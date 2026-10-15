@@ -24,10 +24,10 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Beauty Booth · Studio Foto Digital & Strip GIF Aesthetic',
-  description: 'Photobooth online estetik ala Korea! Foto langsung dari browser webcam, pose countdown, pasang stiker lucu, dan unduh photo strip HD serta GIF animasi.',
-  keywords: ['photobooth online', 'korean photobooth', 'photo strip', 'gif generator', 'beauty booth'],
-  authors: [{ name: 'Beauty Booth Studio' }],
+  title: 'LoveFun · Love is Fun Studio & Couple Games',
+  description: 'Ruang bermain digital untuk pasangan! Cetak photo strip manis, animasikan GIF, dan uji kekompakan berdua lewat game interaktif Sync or Sink.',
+  keywords: ['lovefun', 'photobooth couple', 'couple games', 'sync or sink', 'photo strip', 'korean photobooth'],
+  authors: [{ name: 'LoveFun Studio' }],
   icons: {
     icon: '/favicon.ico',
   },

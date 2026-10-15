@@ -1,0 +1,95 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 1. User & Account Management (Opsional untuk login)
+model User {
+  id            String         @id @default(uuid())
+  email         String?        @unique
+  name          String?
+  avatar_url    String?
+  role          String         @default("USER") // USER, SUPER_ADMIN
+  password_hash String?
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+
+  hosted_rooms  GameRoom[]     @relation("HostRooms")
+  photos        PhotoHistory[]
+  badges        UserBadge[]
+
+  @@map("users")
+}
+
+// 2. Couple Game Rooms (Room Code 5 Hours TTL)
+model GameRoom {
+  id              String         @id @default(uuid())
+  room_code       String         @unique // e.g. LOVE24
+  host_user_id    String?
+  host_name       String
+  partner_name    String?
+  game_type       String         @default("SYNC_OR_SINK")
+  status          String         @default("WAITING") // WAITING, PLAYING, COMPLETED, EXPIRED
+  expires_at      DateTime       // Now + 5 hours
+  final_score     Int?           // Chemistry score (0 - 100)
+  answers_json    Json?          // Synchronized answers state
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  host_user       User?          @relation("HostRooms", fields: [host_user_id], references: [id], onDelete: SetNull)
+
+  @@index([room_code])
+  @@index([expires_at])
+  @@map("game_rooms")
+}
+
+// 3. Saved Photo Strip History (Khusus User Login)
+model PhotoHistory {
+  id            String         @id @default(uuid())
+  user_id       String
+  image_url     String         // Cloudinary URL
+  caption       String?
+  frame_theme   String         @default("blush-pink")
+  pose_count    Int            @default(3)
+  created_at    DateTime       @default(now())
+
+  user          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("photo_history")
+}
+
+// 4. Badges & Achievements (Khusus User Login)
+model UserBadge {
+  id            String         @id @default(uuid())
+  user_id       String
+  badge_code    String         // TWIN_FLAMES, SWEET_SYNC, SOULMATE
+  badge_title   String
+  badge_icon    String         // Emoji or SVG name
+  earned_at     DateTime       @default(now())
+
+  user          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, badge_code])
+  @@map("user_badges")
+}
+
+// 5. Dynamic Frame & Border Catalog (Dikelola Super Admin di /dashboard)
+model FrameCatalog {
+  id            String         @id @default(uuid())
+  frame_code    String         @unique
+  frame_name    String
+  bg_color      String         // Hex color
+  border_color  String         // Hex color
+  text_color    String         // Hex color
+  is_active     Boolean        @default(true)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+
+  @@map("frame_catalog")
+}

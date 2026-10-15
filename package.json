@@ -1,7 +1,8 @@
 {
-  "name": "beauty-booth",
+  "name": "love-fun",
   "private": true,
   "version": "1.0.0",
+  "description": "Love is Fun - Digital Photo Strip Studio & Couple Games Hub",
   "type": "module",
   "scripts": {
     "dev": "next dev",

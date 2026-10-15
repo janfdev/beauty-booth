@@ -4,9 +4,10 @@ import {
   Sparkles,
   Heart,
   ArrowRight,
-  Film,
-  Palette,
-  Sticker,
+  Gamepad2,
+  Users,
+  Lock,
+  Layers,
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,25 +19,30 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#FFF9FB] text-[#2B2D42] flex flex-col justify-between selection:bg-[#FB6F92] selection:text-white">
       {/* Top Floating Island Header */}
       <header className="sticky top-4 z-40 max-w-5xl w-full mx-auto px-4">
-        <div className="rounded-full bg-white/80 backdrop-blur-md border border-[#FB6F92]/20 px-6 py-3.5 flex items-center justify-between shadow-sm shadow-[#FB6F92]/5">
+        <div className="rounded-full bg-white/85 backdrop-blur-md border border-[#FB6F92]/20 px-6 py-3.5 flex items-center justify-between shadow-sm shadow-[#FB6F92]/5">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-full bg-[#FFE5EC] border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92]">
               <Heart className="size-4.5 fill-[#FB6F92]" />
             </div>
             <div>
               <span className="font-display font-black tracking-tight text-lg text-[#2B2D42]">
-                BeautyBooth
+                LoveFun
               </span>
               <span className="hidden sm:inline-block ml-2 text-xs font-mono text-[#7D7F9A]">
-                STUDIO // V1.0
+                LOVE IS FUN // V2.0
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            <Link href="/profile">
+              <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold">
+                <span>Profil</span>
+              </Button>
+            </Link>
             <Link href="/booth">
-              <Button size="sm" className="rounded-full shadow-sm">
-                <span>Masuk Booth</span>
+              <Button size="sm" className="rounded-full shadow-sm font-display font-bold">
+                <span>Studio Foto</span>
                 <ArrowRight className="size-3.5" />
               </Button>
             </Link>
@@ -45,166 +51,164 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <main className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-10 lg:py-16 grid lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7 space-y-6">
+      <main className="max-w-6xl w-full mx-auto px-5 lg:px-8 pt-8 pb-12 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-4">
           <Badge variant="primary" className="rounded-full py-1.5 px-4 text-xs font-semibold">
             <Sparkles className="size-3.5 text-[#FB6F92]" />
-            <span className="font-mono tracking-wider text-[11px] uppercase">SEOUL PHOTOBOOTH · DIGITAL STUDIO</span>
+            <span className="font-mono tracking-wider text-[11px] uppercase">
+              LOVE IS FUN · DIGITAL ACTIVITY FOR COUPLES
+            </span>
           </Badge>
 
           <h1 className="font-display text-4xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[#2B2D42]">
-            Cetak Photo Strip Manis & Animasi GIF,{" "}
-            <span className="text-[#FB6F92]">
-              Langsung di Browser.
-            </span>
+            Ruang Bermain & Mengabadikan{" "}
+            <span className="text-[#FB6F92]">Momen Berdua.</span>
           </h1>
 
-          <p className="font-sans text-[#7D7F9A] text-base sm:text-lg max-w-xl leading-relaxed font-normal">
-            Abadikan momen seru dengan 3 atau 4 pose estetik. Lengkapi dengan filter kecantikan, stiker manis, bingkai pastel favorit, lalu unduh hasilnya sebagai cetakan foto beresolusi tinggi maupun animasi GIF bergerak.
+          <p className="font-sans text-[#7D7F9A] text-base sm:text-lg leading-relaxed">
+            Studio foto strip estetik dan kuis uji kekompakan seru yang dirancang khusus untuk mempererat kedekatan pasangan. Mainkan langsung tanpa perlu unduh aplikasi.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link href="/booth">
-              <Button size="lg" className="rounded-full font-display font-bold shadow-lg shadow-[#FB6F92]/25">
-                <Camera className="size-5" />
-                <span>Mulai Ambil Foto</span>
-              </Button>
-            </Link>
-            <a href="#fitur">
-              <Button variant="outline" size="lg" className="rounded-full font-sans font-medium">
-                <span>Pelajari Fitur Studio</span>
-              </Button>
-            </a>
-          </div>
-
-          {/* Quick Perks Pill */}
-          <div className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-3 text-xs text-[#7D7F9A] font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 pt-1 text-xs text-[#7D7F9A] font-mono">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-[#FB6F92]" />
-              <span>NO INSTALL</span>
+              <span>FREE ACCESS</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-[#FB6F92]" />
-              <span>100% PRIVATE</span>
+              <span>ROOM CODE 5 HOURS TTL</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-[#FB6F92]" />
-              <span>FREE TO USE</span>
+              <span>100% PRIVATE & SAFE</span>
             </div>
           </div>
         </div>
 
-        {/* Visual Strip Showcase Mockup with Double-Bezel Frame */}
-        <div className="lg:col-span-5 flex justify-center">
-          <div className="relative w-full max-w-xs">
-            {/* Soft Ambient Pastel Glow */}
-            <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-[#FFE5EC] via-[#E8DFF5] to-[#FB6F92]/20 blur-2xl opacity-70 -z-10" />
-
-            {/* Double-Bezel Physical Strip Card */}
-            <div className="rounded-[2.25rem] p-3 bg-white/90 border border-[#FB6F92]/20 shadow-xl shadow-[#FB6F92]/10 backdrop-blur-md">
-              <div className="rounded-[1.75rem] p-3.5 bg-[#FFF0F4] border border-[#FB6F92]/25 flex flex-col items-center gap-2.5">
-                {/* Simulated Frames */}
-                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE5EC] to-white flex flex-col items-center justify-center p-3 text-center">
-                    <span className="font-display text-xs font-bold text-[#FB6F92]">Pose 1 · Sweet Smile</span>
-                    <span className="font-mono text-[10px] text-[#7D7F9A]">BEAUTY_GLOW // 01</span>
+        {/* 2 Main Portal Cards (Side-by-Side Bento) */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {/* Card 1: Photobooth Studio */}
+          <div className="rounded-[2.25rem] p-3 bg-white/90 border border-[#FB6F92]/25 shadow-xl shadow-[#FB6F92]/10 backdrop-blur-md flex flex-col justify-between group hover:border-[#FB6F92]/50 transition duration-300">
+            <div className="rounded-[1.75rem] p-6 bg-[#FFF0F4] border border-[#FB6F92]/20 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="size-11 rounded-2xl bg-white border border-[#FB6F92]/30 flex items-center justify-center text-[#FB6F92] shadow-xs">
+                    <Camera className="size-5" />
                   </div>
+                  <Badge variant="primary" className="font-mono text-[10px] uppercase">
+                    3 OR 4 POSES
+                  </Badge>
                 </div>
 
-                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E8DFF5] to-white flex flex-col items-center justify-center p-3 text-center">
-                    <span className="font-display text-xs font-bold text-[#5A4E7A]">Pose 2 · V-Sign</span>
-                    <span className="font-mono text-[10px] text-[#7D7F9A]">SOFT_PEACH // 02</span>
+                <div className="space-y-1">
+                  <h3 className="font-display font-extrabold text-2xl text-[#2B2D42]">
+                    Photo Strip Studio
+                  </h3>
+                  <p className="font-sans text-xs sm:text-sm text-[#7D7F9A] leading-relaxed">
+                    Abadikan pose seru berdua dengan filter kecantikan Seoul, bingkai pastel cantik, dan stiker lucu yang bisa digeser bebas. Cetak hasil foto resolusi tinggi atau simpan animasi GIF bergerak.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-4 flex items-center justify-between">
+                <span className="font-mono text-xs font-bold text-[#FB6F92]">
+                  NO LOGIN REQUIRED
+                </span>
+                <Link href="/booth">
+                  <Button size="md" className="rounded-full font-display font-bold shadow-md shadow-[#FB6F92]/20">
+                    <span>Buka Studio Foto</span>
+                    <ArrowRight className="size-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2: Couple Games */}
+          <div className="rounded-[2.25rem] p-3 bg-white/90 border border-[#5A4E7A]/25 shadow-xl shadow-[#5A4E7A]/10 backdrop-blur-md flex flex-col justify-between group hover:border-[#5A4E7A]/50 transition duration-300">
+            <div className="rounded-[1.75rem] p-6 bg-[#F5F0FB] border border-[#5A4E7A]/20 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="size-11 rounded-2xl bg-white border border-[#5A4E7A]/30 flex items-center justify-center text-[#5A4E7A] shadow-xs">
+                    <Gamepad2 className="size-5" />
                   </div>
+                  <Badge variant="lavender" className="font-mono text-[10px] uppercase">
+                    SYNC OR SINK
+                  </Badge>
                 </div>
 
-                <div className="w-full aspect-[4/3] rounded-xl bg-white overflow-hidden shadow-xs border border-[#FB6F92]/15 flex items-center justify-center relative">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE5EC] to-white flex flex-col items-center justify-center p-3 text-center">
-                    <span className="font-display text-xs font-bold text-[#FB6F92]">Pose 3 · Heart Hands</span>
-                    <span className="font-mono text-[10px] text-[#7D7F9A]">WARM_AESTHETIC // 03</span>
-                  </div>
+                <div className="space-y-1">
+                  <h3 className="font-display font-extrabold text-2xl text-[#2B2D42]">
+                    Sync or Sink: Couple Challenge
+                  </h3>
+                  <p className="font-sans text-xs sm:text-sm text-[#7D7F9A] leading-relaxed">
+                    Uji seberapa sehati pikiran dan preferensi kalian lewat babak kuis seru. Host dapat membuat Room Code khusus (aktif 5 jam) dan pasangan bisa langsung bergabung tanpa perlu mendaftar akun.
+                  </p>
                 </div>
+              </div>
 
-                {/* Strip Footer */}
-                <div className="w-full pt-1.5 flex items-center justify-between text-[11px] font-mono font-bold text-[#FB6F92] px-1 border-t border-[#FB6F92]/20">
-                  <span>BEAUTY BOOTH STUDIO</span>
-                  <span className="flex items-center gap-1">
-                    <span>2026</span>
-                    <Heart className="size-3 fill-[#FB6F92]" />
-                  </span>
-                </div>
+              <div className="pt-4 flex items-center justify-between">
+                <span className="font-mono text-xs font-bold text-[#5A4E7A]">
+                  2 DEVICES CONNECTED
+                </span>
+                <Link href="/games/sync">
+                  <Button
+                    size="md"
+                    className="rounded-full font-display font-bold bg-[#735D96] hover:bg-[#624D82] text-white shadow-md shadow-[#735D96]/20"
+                  >
+                    <span>Mulai Main Berdua</span>
+                    <ArrowRight className="size-4" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Feature Highlights Grid */}
+        <div className="grid sm:grid-cols-3 gap-5 max-w-5xl mx-auto pt-4">
+          <Card doubleBezel className="space-y-2">
+            <div className="size-9 rounded-xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
+              <Layers className="size-4.5" />
+            </div>
+            <h4 className="font-display font-bold text-sm text-[#2B2D42]">Katalog Frame Bervariasi</h4>
+            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
+              Pilihan layout strip 3 pose, 4 pose, dan grid estetik dengan tema warna yang terus bertambah dari dashboard.
+            </p>
+          </Card>
+
+          <Card doubleBezel className="space-y-2">
+            <div className="size-9 rounded-xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
+              <Users className="size-4.5" />
+            </div>
+            <h4 className="font-display font-bold text-sm text-[#2B2D42]">Room Code 5 Jam</h4>
+            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
+              Sesi game sinkronisasi aman dan otomatis kedaluwarsa setelah 5 jam untuk menjaga privasi berdua.
+            </p>
+          </Card>
+
+          <Card doubleBezel className="space-y-2">
+            <div className="size-9 rounded-xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
+              <Sparkles className="size-4.5" />
+            </div>
+            <h4 className="font-display font-bold text-sm text-[#2B2D42]">Lencana & Riwayat Foto</h4>
+            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
+              Login untuk mengoleksi lencana hasil skor chemistry dan menyimpan cetakan foto kenangan ke profil Anda.
+            </p>
+          </Card>
+        </div>
       </main>
-
-      {/* Feature Section Bento */}
-      <section id="fitur" className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-12 border-t border-[#FB6F92]/15">
-        <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
-          <Badge variant="secondary" className="rounded-full font-mono text-[11px] uppercase tracking-wider">
-            FEATURE SHOWCASE
-          </Badge>
-          <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-[#2B2D42]">
-            Pengalaman Photobooth Lengkap & Otomatis
-          </h2>
-          <p className="font-sans text-sm text-[#7D7F9A]">
-            Setiap fitur dirancang khusus untuk kenyamanan dan keindahan hasil foto Anda.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <Card doubleBezel className="space-y-2.5">
-            <div className="size-10 rounded-2xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
-              <Sparkles className="size-5" />
-            </div>
-            <h3 className="font-display font-bold text-base text-[#2B2D42]">Real-time Beauty Glow</h3>
-            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
-              Pilihan filter wajah halus, soft peach, retro vintage, dan monokrom kontras tinggi.
-            </p>
-          </Card>
-
-          <Card doubleBezel className="space-y-2.5">
-            <div className="size-10 rounded-2xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
-              <Palette className="size-5" />
-            </div>
-            <h3 className="font-display font-bold text-base text-[#2B2D42]">Pastel Frame Themes</h3>
-            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
-              Pilihan bingkai warna estetik: Blush Pink, Warm Cream, Pastel Lilac, dan Midnight Dark.
-            </p>
-          </Card>
-
-          <Card doubleBezel className="space-y-2.5">
-            <div className="size-10 rounded-2xl bg-[#FFE5EC] flex items-center justify-center text-[#FB6F92]">
-              <Sticker className="size-5" />
-            </div>
-            <h3 className="font-display font-bold text-base text-[#2B2D42]">Cute Stickers Drag & Drop</h3>
-            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
-              Hias strip dengan stiker pita, bunga ceri, glitter spark, dan atur ukuran dengan bebas.
-            </p>
-          </Card>
-
-          <Card doubleBezel className="space-y-2.5">
-            <div className="size-10 rounded-2xl bg-[#E8DFF5] flex items-center justify-center text-[#5A4E7A]">
-              <Film className="size-5" />
-            </div>
-            <h3 className="font-display font-bold text-base text-[#2B2D42]">Animasi GIF Bergerak</h3>
-            <p className="font-sans text-xs text-[#7D7F9A] leading-relaxed">
-              Selain cetak strip PNG berkualitas tinggi, Anda dapat mengunduh animasi looping GIF.
-            </p>
-          </Card>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="max-w-6xl w-full mx-auto px-5 lg:px-8 py-8 border-t border-[#FB6F92]/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#7D7F9A]">
         <div className="flex items-center gap-2">
           <Heart className="size-3.5 fill-[#FB6F92] text-[#FB6F92]" />
-          <span className="font-sans">BeautyBooth Studio · Dibuat untuk momen terbaik Anda</span>
+          <span className="font-sans">LoveFun · Love is Fun for Couples</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/booth" className="hover:text-[#FB6F92] font-semibold transition">
-            [BUKA STUDIO KAMERA]
+          <Link href="/dashboard" className="hover:text-[#FB6F92] font-semibold transition flex items-center gap-1">
+            <Lock className="size-3" />
+            <span>Dashboard</span>
           </Link>
           <span>//</span>
           <span>100% PRIVATE</span>
